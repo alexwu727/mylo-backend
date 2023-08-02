@@ -37,18 +37,41 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.register(user));
     }
 
-    // get user by id
     @GetMapping("/{id}")
     public ResponseEntity<UserResponse> getUserById(@PathVariable("id") Long id) {
         User user = userService.findById(id);
         UserResponse userResponse = userMapper.UserToUserResponse(user);
         return ResponseEntity.ok(userResponse);
     }
-    // get user by username
     @GetMapping("/username/{username}")
     public ResponseEntity<UserResponse> getUserByUsername(@PathVariable("username") String username) {
         User user = userService.findByUsername(username);
         UserResponse userResponse = userMapper.UserToUserResponse(user);
         return ResponseEntity.ok(userResponse);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserResponse> updateUser(@PathVariable("id") Long id, @RequestBody @Valid UserRegistration userRegistration) {
+        User user = userMapper.UserRegistrationToUser(userRegistration);
+        User updatedUser = userService.update(id, user);
+        UserResponse userResponse = userMapper.UserToUserResponse(updatedUser);
+        return ResponseEntity.status(HttpStatus.OK).body(userResponse);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<UserResponse> patchUser(@PathVariable("id") Long id, @RequestBody UserRegistration userRegistration) {
+        User user = userMapper.UserRegistrationToUser(userRegistration);
+        User updatedUser = userService.patch(id, user);
+        UserResponse userResponse = userMapper.UserToUserResponse(updatedUser);
+        return ResponseEntity.status(HttpStatus.OK).body(userResponse);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<UserResponse> deleteUser(@PathVariable("id") Long id) {
+        User user = userService.findById(id);
+        userService.delete(id);
+        UserResponse userResponse = userMapper.UserToUserResponse(user);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(userResponse);
+
     }
 }
