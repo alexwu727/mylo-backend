@@ -2,6 +2,7 @@ package io.github.alexwu727.mylouserservice;
 
 import io.github.alexwu727.mylouserservice.service.UserService;
 import io.github.alexwu727.mylouserservice.util.UserMapper;
+import io.github.alexwu727.mylouserservice.vo.UserPatch;
 import io.github.alexwu727.mylouserservice.vo.UserRegistration;
 import io.github.alexwu727.mylouserservice.vo.UserResponse;
 import jakarta.validation.Valid;
@@ -59,8 +60,8 @@ public class UserController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<UserResponse> patchUser(@PathVariable("id") Long id, @RequestBody UserRegistration userRegistration) {
-        User user = userMapper.UserRegistrationToUser(userRegistration);
+    public ResponseEntity<UserResponse> patchUser(@PathVariable("id") Long id, @RequestBody @Valid UserPatch userPatch) {
+        User user = userMapper.UserPatchToUser(userPatch);
         User updatedUser = userService.patch(id, user);
         UserResponse userResponse = userMapper.UserToUserResponse(updatedUser);
         return ResponseEntity.status(HttpStatus.OK).body(userResponse);
@@ -71,7 +72,7 @@ public class UserController {
         User user = userService.findById(id);
         userService.delete(id);
         UserResponse userResponse = userMapper.UserToUserResponse(user);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(userResponse);
+        return ResponseEntity.status(HttpStatus.OK).body(userResponse);
 
     }
 }

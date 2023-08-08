@@ -1,6 +1,7 @@
 package io.github.alexwu727.mylouserservice.util;
 
 import io.github.alexwu727.mylouserservice.User;
+import io.github.alexwu727.mylouserservice.vo.UserPatch;
 import io.github.alexwu727.mylouserservice.vo.UserRegistration;
 import io.github.alexwu727.mylouserservice.vo.UserResponse;
 
@@ -19,5 +20,13 @@ public class UserMapper {
         userResponse.setUsername(user.getUsername());
         userResponse.setEmail(user.getEmail());
         return userResponse;
+    }
+
+    public User UserPatchToUser(UserPatch userPatch) {
+        User user = new User();
+        user.setUsername(userPatch.getUsername());
+        user.setEmail(userPatch.getEmail());
+        user.setPassword(userPatch.getPassword());
+        return user;
     }
 }

@@ -100,5 +100,6 @@ public class UserServiceImpl implements UserService{
         if (!userOptional.isPresent()) {
             throw new UserNotFoundException("User with id " + id + " not found");
         }
+        userRepository.deleteById(id);
     }
 }
