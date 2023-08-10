@@ -14,10 +14,13 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService{
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    // list all user
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @Override
     public List<User> findAll() {
         return userRepository.findAll();
@@ -37,7 +40,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public User findByUsername(String username) {
         Optional<User> user = userRepository.findByUsername(username);
-        if (!user.isPresent()) {
+        if (user.isEmpty()) {
             throw new UserNotFoundException("User with username " + username + " not found");
         }
         return user.get();
@@ -46,7 +49,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public User findById(Long id) {
         Optional<User> user = userRepository.findById(id);
-        if (!user.isPresent()) {
+        if (user.isEmpty()) {
             throw new UserNotFoundException("User with id " + id + " not found");
         }
         return user.get();
@@ -55,7 +58,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public User update(Long id, User user) {
         Optional<User> userOptional = userRepository.findById(id);
-        if (!userOptional.isPresent()) {
+        if (userOptional.isEmpty()) {
             throw new UserNotFoundException("User with id " + id + " not found");
         }
         if (userRepository.existsByUsername(user.getUsername())) {
@@ -73,7 +76,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public User patch(Long id, User user) {
         Optional<User> userOptional = userRepository.findById(id);
-        if (!userOptional.isPresent()) {
+        if (userOptional.isEmpty()) {
             throw new UserNotFoundException("User with id " + id + " not found");
         }
         User userFromDB = userOptional.get();
@@ -98,7 +101,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public void delete(Long id) {
         Optional<User> userOptional = userRepository.findById(id);
-        if (!userOptional.isPresent()) {
+        if (userOptional.isEmpty()) {
             throw new UserNotFoundException("User with id " + id + " not found");
         }
         userRepository.deleteById(id);
