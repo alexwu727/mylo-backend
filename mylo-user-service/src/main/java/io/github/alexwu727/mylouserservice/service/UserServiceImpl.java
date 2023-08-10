@@ -21,9 +21,6 @@ public class UserServiceImpl implements UserService{
         this.userRepository = userRepository;
     }
 
-    @Autowired
-    private UserRepository userRepository;
-
     // list all user
     @Override
     public List<User> findAll() {
