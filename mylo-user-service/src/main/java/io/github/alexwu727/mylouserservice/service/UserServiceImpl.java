@@ -2,6 +2,7 @@ package io.github.alexwu727.mylouserservice.service;
 
 import io.github.alexwu727.mylouserservice.User;
 import io.github.alexwu727.mylouserservice.UserRepository;
+import io.github.alexwu727.mylouserservice.exception.EmailAlreadyExistsException;
 import io.github.alexwu727.mylouserservice.exception.UserNotFoundException;
 import io.github.alexwu727.mylouserservice.exception.UsernameAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class UserServiceImpl implements UserService{
             throw new UsernameAlreadyExistsException("Username " + user.getUsername() + " already exists");
         }
         if (userRepository.existsByEmail(user.getEmail())) {
-            throw new UsernameAlreadyExistsException("Email " + user.getEmail() + " already exists");
+            throw new EmailAlreadyExistsException("Email " + user.getEmail() + " already exists");
         }
         return userRepository.save(user);
     }
@@ -61,7 +62,7 @@ public class UserServiceImpl implements UserService{
             throw new UsernameAlreadyExistsException("Username " + user.getUsername() + " already exists");
         }
         if (userRepository.existsByEmail(user.getEmail())) {
-            throw new UsernameAlreadyExistsException("Email " + user.getEmail() + " already exists");
+            throw new EmailAlreadyExistsException("Email " + user.getEmail() + " already exists");
         }
         User userFromDB = userOptional.get();
         userFromDB.setUsername(user.getUsername());
