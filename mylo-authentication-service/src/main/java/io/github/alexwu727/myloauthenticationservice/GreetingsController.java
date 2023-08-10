@@ -18,4 +18,14 @@ public class GreetingsController {
     public ResponseEntity<String> goodbye() {
         return ResponseEntity.ok("Goodbye, World!");
     }
+
+    @GetMapping("/protected")
+    public ResponseEntity<String> protectedGreetings() {
+        return ResponseEntity.ok("Hello, Protected World!");
+    }
+
+    @GetMapping("/admin")
+    public ResponseEntity<String> adminGreetings() {
+        return ResponseEntity.ok("Hello, Admin World!");
+    }
 }
