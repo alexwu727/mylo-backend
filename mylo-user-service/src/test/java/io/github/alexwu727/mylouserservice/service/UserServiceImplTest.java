@@ -57,6 +57,9 @@ class UserServiceImplTest {
 
         // Act
         User result = userService.register(user1);
+
+        // Assert
+        assertEquals(user1, result);
     }
 
     @Test
