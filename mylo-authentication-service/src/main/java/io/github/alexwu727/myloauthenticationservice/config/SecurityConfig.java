@@ -27,6 +27,9 @@ public class SecurityConfig {
                         requests
                                 .requestMatchers("/api/v1/auth/**").permitAll()
                                 .requestMatchers("/api/v1/greetings/").permitAll()
+                                .requestMatchers("/api/v1/greetings/goodbye").permitAll()
+                                .requestMatchers("/api/v1/greetings/protected").authenticated()
+                                .requestMatchers("/api/v1/greetings/admin").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider)
