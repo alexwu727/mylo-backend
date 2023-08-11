@@ -3,17 +3,11 @@ package io.github.alexwu727.mylouserservice.vo;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
-<<<<<<< HEAD
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-=======
-import lombok.Data;
-
-@Data
->>>>>>> user service - get users, get user by id, get user by username, and register
 public class UserRegistration {
     @NotEmpty(message = "Username cannot be empty")
     @Size(min = 4, max = 20, message = "Username must be between 4 and 20 characters")
