@@ -68,7 +68,8 @@ class UserServiceImplTest {
         when(userRepository.existsByUsername(user1.getUsername())).thenReturn(true);
 
         // Act & Assert
-        assertThrows(UsernameAlreadyExistsException.class, () -> userService.register(user1));
+        Exception exception = assertThrows(UsernameAlreadyExistsException.class, () -> userService.register(user1));
+        assertEquals("Username " + user1.getUsername() + " already exists", exception.getMessage());
     }
 
     @Test
@@ -78,7 +79,8 @@ class UserServiceImplTest {
         when(userRepository.existsByEmail(user1.getEmail())).thenReturn(true);
 
         // Act & Assert
-        assertThrows(EmailAlreadyExistsException.class, () -> userService.register(user1));
+        Exception exception = assertThrows(EmailAlreadyExistsException.class, () -> userService.register(user1));
+        assertEquals("Email " + user1.getEmail() + " already exists", exception.getMessage());
     }
 
     @Test
@@ -99,7 +101,8 @@ class UserServiceImplTest {
         when(userRepository.findByUsername(user1.getUsername())).thenReturn(Optional.empty());
 
         // Act & Assert
-        assertThrows(UserNotFoundException.class, () -> userService.findByUsername(user1.getUsername()));
+        Exception exception = assertThrows(UserNotFoundException.class, () -> userService.findByUsername(user1.getUsername()));
+        assertEquals("User with username " + user1.getUsername() + " not found", exception.getMessage());
     }
 
     @Test
@@ -120,7 +123,8 @@ class UserServiceImplTest {
         when(userRepository.findById(user1.getId())).thenReturn(Optional.empty());
 
         // Act & Assert
-        assertThrows(UserNotFoundException.class, () -> userService.findById(user1.getId()));
+        Exception exception = assertThrows(UserNotFoundException.class, () -> userService.findById(user1.getId()));
+        assertEquals("User with id " + user1.getId() + " not found", exception.getMessage());
     }
 
     @Test
@@ -144,7 +148,8 @@ class UserServiceImplTest {
         when(userRepository.findById(user1.getId())).thenReturn(Optional.empty());
 
         // Act & Assert
-        assertThrows(UserNotFoundException.class, () -> userService.update(user1.getId(), user1));
+        Exception exception = assertThrows(UserNotFoundException.class, () -> userService.update(user1.getId(), user1));
+        assertEquals("User with id " + user1.getId() + " not found", exception.getMessage());
     }
 
     @Test
@@ -154,7 +159,8 @@ class UserServiceImplTest {
         when(userRepository.existsByUsername(user1.getUsername())).thenReturn(true);
 
         // Act & Assert
-        assertThrows(UsernameAlreadyExistsException.class, () -> userService.update(user1.getId(), user1));
+        Exception exception = assertThrows(UsernameAlreadyExistsException.class, () -> userService.update(user1.getId(), user1));
+        assertEquals("Username " + user1.getUsername() + " already exists", exception.getMessage());
     }
 
     @Test
@@ -164,7 +170,8 @@ class UserServiceImplTest {
         when(userRepository.existsByEmail(user1.getEmail())).thenReturn(true);
 
         // Act & Assert
-        assertThrows(EmailAlreadyExistsException.class, () -> userService.update(user1.getId(), user1));
+        Exception exception = assertThrows(EmailAlreadyExistsException.class, () -> userService.update(user1.getId(), user1));
+        assertEquals("Email " + user1.getEmail() + " already exists", exception.getMessage());
     }
 
     @Test
@@ -185,6 +192,7 @@ class UserServiceImplTest {
         when(userRepository.findById(user1.getId())).thenReturn(Optional.empty());
 
         // Act & Assert
-        assertThrows(UserNotFoundException.class, () -> userService.delete(user1.getId()));
+        Exception exception = assertThrows(UserNotFoundException.class, () -> userService.delete(user1.getId()));
+        assertEquals("User with id " + user1.getId() + " not found", exception.getMessage());
     }
 }
