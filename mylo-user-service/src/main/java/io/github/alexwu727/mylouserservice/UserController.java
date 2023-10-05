@@ -2,7 +2,10 @@ package io.github.alexwu727.mylouserservice;
 
 import io.github.alexwu727.mylouserservice.service.UserService;
 import io.github.alexwu727.mylouserservice.util.UserMapper;
+<<<<<<< HEAD
 import io.github.alexwu727.mylouserservice.vo.UserPatch;
+=======
+>>>>>>> user service - get users, get user by id, get user by username, and register
 import io.github.alexwu727.mylouserservice.vo.UserRegistration;
 import io.github.alexwu727.mylouserservice.vo.UserResponse;
 import jakarta.validation.Valid;
@@ -38,18 +41,27 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.register(user));
     }
 
+<<<<<<< HEAD
+=======
+    // get user by id
+>>>>>>> user service - get users, get user by id, get user by username, and register
     @GetMapping("/{id}")
     public ResponseEntity<UserResponse> getUserById(@PathVariable("id") Long id) {
         User user = userService.findById(id);
         UserResponse userResponse = userMapper.UserToUserResponse(user);
         return ResponseEntity.ok(userResponse);
     }
+<<<<<<< HEAD
+=======
+    // get user by username
+>>>>>>> user service - get users, get user by id, get user by username, and register
     @GetMapping("/username/{username}")
     public ResponseEntity<UserResponse> getUserByUsername(@PathVariable("username") String username) {
         User user = userService.findByUsername(username);
         UserResponse userResponse = userMapper.UserToUserResponse(user);
         return ResponseEntity.ok(userResponse);
     }
+<<<<<<< HEAD
 
     @PutMapping("/{id}")
     public ResponseEntity<UserResponse> updateUser(@PathVariable("id") Long id, @RequestBody @Valid UserRegistration userRegistration) {
@@ -75,4 +87,6 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userResponse);
 
     }
+=======
+>>>>>>> user service - get users, get user by id, get user by username, and register
 }
