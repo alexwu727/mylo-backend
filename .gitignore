@@ -28,3 +28,7 @@ replay_pid*
 *.ipr
 *.iws
 .idea/
+
+# target folder in each module
+**/target/
+
