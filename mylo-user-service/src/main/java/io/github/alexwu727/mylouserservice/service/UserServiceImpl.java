@@ -21,10 +21,7 @@ public class UserServiceImpl implements UserService{
         this.userRepository = userRepository;
     }
 
-<<<<<<< HEAD
     // list all user
-=======
->>>>>>> c1ba2fd948fd5053f0631b2a05642c4048112d59
     @Override
     public List<User> findAll() {
         return userRepository.findAll();
@@ -53,11 +50,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public User findById(Long id) {
         Optional<User> user = userRepository.findById(id);
-<<<<<<< HEAD
-        if (!user.isEmpty()) {
-=======
         if (user.isEmpty()) {
->>>>>>> c1ba2fd948fd5053f0631b2a05642c4048112d59
             throw new UserNotFoundException("User with id " + id + " not found");
         }
         return user.get();

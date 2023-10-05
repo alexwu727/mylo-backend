@@ -38,21 +38,15 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.register(user));
     }
 
-<<<<<<< HEAD
     // get user by id
-=======
->>>>>>> c1ba2fd948fd5053f0631b2a05642c4048112d59
     @GetMapping("/{id}")
     public ResponseEntity<UserResponse> getUserById(@PathVariable("id") Long id) {
         User user = userService.findById(id);
         UserResponse userResponse = userMapper.UserToUserResponse(user);
         return ResponseEntity.ok(userResponse);
     }
-<<<<<<< HEAD
-    
+
     // get user by username
-=======
->>>>>>> c1ba2fd948fd5053f0631b2a05642c4048112d59
     @GetMapping("/username/{username}")
     public ResponseEntity<UserResponse> getUserByUsername(@PathVariable("username") String username) {
         User user = userService.findByUsername(username);
