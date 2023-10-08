@@ -8,7 +8,6 @@ import io.github.alexwu727.myloauthenticationservice.vo.AuthResponse;
 import io.github.alexwu727.myloauthenticationservice.vo.LoginRequest;
 import io.github.alexwu727.myloauthenticationservice.vo.RegisterRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
