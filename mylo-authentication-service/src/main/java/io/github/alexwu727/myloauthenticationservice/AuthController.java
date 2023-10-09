@@ -16,21 +16,10 @@ public class AuthController {
     private AuthService authService;
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@RequestBody @Validated RegisterRequest request) {
-        System.out.println("register");
         return ResponseEntity.ok(authService.register(request));
     }
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
         return ResponseEntity.ok(authService.login(request));
-    }
-
-    @GetMapping("/test")
-    public ResponseEntity<String> test() {
-        return ResponseEntity.ok("Hello, World! Get");
-    }
-
-    @PostMapping("/test")
-    public ResponseEntity<String> testPost() {
-        return ResponseEntity.ok("Hello, World! Post");
     }
 }

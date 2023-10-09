@@ -6,19 +6,28 @@ import io.github.alexwu727.mylouserservice.exception.EmailAlreadyExistsException
 import io.github.alexwu727.mylouserservice.exception.UserNotFoundException;
 import io.github.alexwu727.mylouserservice.exception.UsernameAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.util.Pair;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService{
 
+    private final String authServiceBaseUrl;
     private final UserRepository userRepository;
+    private final RestTemplate restTemplate;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(@Value("${auth.service.base.url}") String authServiceBaseUrl, UserRepository userRepository, RestTemplate restTemplate) {
         this.userRepository = userRepository;
+        this.restTemplate = restTemplate;
+        this.authServiceBaseUrl = authServiceBaseUrl;
     }
 
     // list all user
@@ -28,14 +37,23 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User register(User user) {
+    public Pair<User, String> register(User user) {
         if (userRepository.existsByUsername(user.getUsername())) {
             throw new UsernameAlreadyExistsException("Username " + user.getUsername() + " already exists");
         }
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new EmailAlreadyExistsException("Email " + user.getEmail() + " already exists");
         }
-        return userRepository.save(user);
+        String url = authServiceBaseUrl + "register";
+        Map<String, String> request = Map.of(
+                "username", user.getUsername(),
+                "password", user.getPassword(),
+                "email", user.getEmail()
+        );
+        ResponseEntity<Map> response = restTemplate.postForEntity(url, request, Map.class);
+        String token = (String) response.getBody().get("token");
+        assert token != null;
+        return Pair.of(userRepository.save(user), token);
     }
 
     @Override

@@ -5,6 +5,7 @@ import io.github.alexwu727.mylouserservice.UserController;
 import io.github.alexwu727.mylouserservice.exception.UserNotFoundException;
 import io.github.alexwu727.mylouserservice.service.UserService;
 import io.github.alexwu727.mylouserservice.util.UserMapper;
+import io.github.alexwu727.mylouserservice.vo.RegistrationResponse;
 import io.github.alexwu727.mylouserservice.vo.UserRegistration;
 import io.github.alexwu727.mylouserservice.vo.UserResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.util.Pair;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -36,12 +38,16 @@ class UserControllerTest {
     private User user;
     private UserResponse userResponse;
     private UserRegistration userRegistration;
+    private RegistrationResponse registrationResponse;
+    private String token;
 
     @BeforeEach
     void setup() {
         user = new User(1L, "alex", "123456", "alex@example.com", new Date());
         userResponse = new UserResponse(1L, "alex", "alex@example.com");
         userRegistration = new UserRegistration("alex", "123456", "alex@example.com");
+        token = "token";
+        registrationResponse = new RegistrationResponse(userResponse, token);
     }
 
     @Test
@@ -60,14 +66,14 @@ class UserControllerTest {
     @Test
     void register_WithValidUserRegistration_ReturnsCreatedUser() {
         // Arrange
-        when(userService.register(any(User.class))).thenReturn(user);
+        when(userService.register(any(User.class))).thenReturn(Pair.of(user, token));
 
         // Act
-        ResponseEntity<User> result = userController.register(userRegistration);
+        ResponseEntity<RegistrationResponse> result = userController.register(userRegistration);
 
         // Assert
         assertEquals(HttpStatus.CREATED, result.getStatusCode());
-        assertEquals(user, result.getBody());
+        assertEquals(registrationResponse, result.getBody());
     }
 
     @Test

@@ -2,11 +2,13 @@ package io.github.alexwu727.mylouserservice;
 
 import io.github.alexwu727.mylouserservice.service.UserService;
 import io.github.alexwu727.mylouserservice.util.UserMapper;
+import io.github.alexwu727.mylouserservice.vo.RegistrationResponse;
 import io.github.alexwu727.mylouserservice.vo.UserPatch;
 import io.github.alexwu727.mylouserservice.vo.UserRegistration;
 import io.github.alexwu727.mylouserservice.vo.UserResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,9 +35,13 @@ public class UserController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<User> register(@RequestBody @Valid UserRegistration userRegistration) {
+    public ResponseEntity<RegistrationResponse> register(@RequestBody @Valid UserRegistration userRegistration) {
         User user = userMapper.UserRegistrationToUser(userRegistration);
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.register(user));
+        Pair<User, String> userStringPair = userService.register(user);
+        UserResponse userResponse = userMapper.UserToUserResponse(userStringPair.getFirst());
+        String token = userStringPair.getSecond();
+        RegistrationResponse registrationResponse = new RegistrationResponse(userResponse, token);
+        return ResponseEntity.status(HttpStatus.CREATED).body(registrationResponse);
     }
 
     // get user by id

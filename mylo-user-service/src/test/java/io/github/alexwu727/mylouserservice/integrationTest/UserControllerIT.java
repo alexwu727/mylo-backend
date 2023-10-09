@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.util.Pair;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
@@ -36,6 +37,7 @@ public class UserControllerIT {
     private User user2;
     private List<User> users;
     private String userRegistrationJson;
+    private String token;
     @BeforeEach
     void setup() {
         user1 = new User(1L, "alex", "12345678", "alex@example.com", new Date());
@@ -48,13 +50,11 @@ public class UserControllerIT {
                 "\"password\": \"12345678\",\n" +
                 "\"email\": \"alex@example.com\"" +
                 "\n}";
+        token = "token";
     }
 
     @Test
     void getAllUsers_ReturnsAllUsers() throws Exception {
-        System.out.println("test");
-        System.out.println(users);
-        System.out.println(user1);
         when(userService.findAll()).thenReturn(users);
         mockMvc.perform(get("/api/v1/users/"))
                 .andExpect(status().isOk())
@@ -103,15 +103,15 @@ public class UserControllerIT {
 
     @Test
     void register_WithValidUserRegistration_ReturnsCreatedUser() throws Exception {
-        when(userService.register(any(User.class))).thenReturn(user1);
+        when(userService.register(any(User.class))).thenReturn(Pair.of(user1, token));
         mockMvc.perform(post("/api/v1/users/")
                         .contentType("application/json")
                         .content(userRegistrationJson))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id", is(1)))
-                .andExpect(jsonPath("$.username", is(user1.getUsername())))
-                .andExpect(jsonPath("$.email", is(user1.getEmail())))
-                .andExpect(jsonPath("$.password", is(user1.getPassword())));
+                .andExpect(jsonPath("$.userResponse.id", is(1)))
+                .andExpect(jsonPath("$.userResponse.username", is(user1.getUsername())))
+                .andExpect(jsonPath("$.userResponse.email", is(user1.getEmail())))
+                .andExpect(jsonPath("$.token", is(token)));
     }
 
     @Test

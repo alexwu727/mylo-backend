@@ -12,6 +12,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.util.Pair;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
 
@@ -26,13 +28,18 @@ class UserServiceImplTest {
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    private RestTemplate restTemplate;
+
     private User user1;
     private User user2;
+    private String token;
 
     @BeforeEach
     void setUp() {
         user1 = new User(1L, "alex", "123456", "alex@example.com", new Date());
         user2 = new User(2L, "bob", "123456", "bob@example.com", new Date());
+        token = "token";
     }
 
 
@@ -55,12 +62,14 @@ class UserServiceImplTest {
         when(userRepository.existsByUsername(user1.getUsername())).thenReturn(false);
         when(userRepository.existsByEmail(user1.getEmail())).thenReturn(false);
         when(userRepository.save(user1)).thenReturn(user1);
+        when(restTemplate.postForObject(any(String.class), any(User.class), any())).thenReturn("token");
 
         // Act
-        User result = userService.register(user1);
+        Pair<User, String> result = userService.register(user1);
 
         // Assert
-        assertEquals(user1, result);
+        assertEquals(user1, result.getFirst());
+        assertEquals(token, result.getSecond());
     }
 
     @Test
