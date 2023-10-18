@@ -45,10 +45,12 @@ public class UserServiceImpl implements UserService{
             throw new EmailAlreadyExistsException("Email " + user.getEmail() + " already exists");
         }
         String url = authServiceBaseUrl + "register";
+        System.out.println(url);
         Map<String, String> request = Map.of(
                 "username", user.getUsername(),
                 "password", user.getPassword(),
-                "email", user.getEmail()
+                "email", user.getEmail(),
+                "role", user.getRole().toString()
         );
         ResponseEntity<Map> response = restTemplate.postForEntity(url, request, Map.class);
         String token = (String) response.getBody().get("token");

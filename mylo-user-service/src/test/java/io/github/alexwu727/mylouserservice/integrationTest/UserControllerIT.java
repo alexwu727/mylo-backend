@@ -1,5 +1,6 @@
 package io.github.alexwu727.mylouserservice.integrationTest;
 
+import io.github.alexwu727.mylouserservice.Role;
 import io.github.alexwu727.mylouserservice.User;
 import io.github.alexwu727.mylouserservice.exception.UserNotFoundException;
 import io.github.alexwu727.mylouserservice.exception.UsernameAlreadyExistsException;
@@ -40,8 +41,8 @@ public class UserControllerIT {
     private String token;
     @BeforeEach
     void setup() {
-        user1 = new User(1L, "alex", "12345678", "alex@example.com", new Date());
-        user2 = new User(2L, "bob", "12345678", "bob@example.com", new Date());
+        user1 = new User(1L, "alex", "12345678", "alex@example.com", Role.USER, new Date());
+        user2 = new User(2L, "bob", "12345678", "bob@example.com", Role.ADMIN, new Date());
         users = new ArrayList<>();
         users.add(user1);
         users.add(user2);

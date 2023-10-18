@@ -1,7 +1,9 @@
 package io.github.alexwu727.mylouserservice.vo;
 
+import io.github.alexwu727.mylouserservice.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,4 +22,7 @@ public class UserRegistration {
     @NotEmpty(message = "Email cannot be empty")
     @Email(message = "Email is not valid")
     private String email;
+
+    @NotNull(message = "Role cannot be empty")
+    private Role role;
 }

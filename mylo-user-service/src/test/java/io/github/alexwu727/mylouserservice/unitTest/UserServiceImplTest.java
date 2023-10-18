@@ -1,5 +1,6 @@
 package io.github.alexwu727.mylouserservice.unitTest;
 
+import io.github.alexwu727.mylouserservice.Role;
 import io.github.alexwu727.mylouserservice.User;
 import io.github.alexwu727.mylouserservice.UserRepository;
 import io.github.alexwu727.mylouserservice.exception.EmailAlreadyExistsException;
@@ -13,6 +14,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.util.Pair;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
@@ -33,13 +38,18 @@ class UserServiceImplTest {
 
     private User user1;
     private User user2;
+    private ResponseEntity<Map<String, String>> authResponse;
     private String token;
+
 
     @BeforeEach
     void setUp() {
-        user1 = new User(1L, "alex", "123456", "alex@example.com", new Date());
-        user2 = new User(2L, "bob", "123456", "bob@example.com", new Date());
+        user1 = new User(1L, "alex", "123456", "alex@example.com", Role.USER, new Date());
+        user2 = new User(2L, "bob", "123456", "bob@example.com", Role.ADMIN, new Date());
         token = "token";
+        Map<String, String> authResponseMap = new HashMap<>();
+        authResponseMap.put("token", token);
+        authResponse = new ResponseEntity<>(authResponseMap, null, HttpStatus.OK);
     }
 
 
@@ -62,8 +72,7 @@ class UserServiceImplTest {
         when(userRepository.existsByUsername(user1.getUsername())).thenReturn(false);
         when(userRepository.existsByEmail(user1.getEmail())).thenReturn(false);
         when(userRepository.save(user1)).thenReturn(user1);
-        when(restTemplate.postForObject(any(String.class), any(User.class), any())).thenReturn("token");
-
+        doReturn(authResponse).when(restTemplate).postForEntity(anyString(), any(), any());
         // Act
         Pair<User, String> result = userService.register(user1);
 

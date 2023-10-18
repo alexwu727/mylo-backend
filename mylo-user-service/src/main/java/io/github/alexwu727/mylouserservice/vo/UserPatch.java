@@ -1,5 +1,6 @@
 package io.github.alexwu727.mylouserservice.vo;
 
+import io.github.alexwu727.mylouserservice.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -14,4 +15,6 @@ public class UserPatch {
 
     @Email(message = "Email is not valid")
     private String email;
+
+    private Role role;
 }

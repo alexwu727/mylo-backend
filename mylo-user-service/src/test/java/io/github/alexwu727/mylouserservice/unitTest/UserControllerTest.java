@@ -1,5 +1,6 @@
 package io.github.alexwu727.mylouserservice.unitTest;
 
+import io.github.alexwu727.mylouserservice.Role;
 import io.github.alexwu727.mylouserservice.User;
 import io.github.alexwu727.mylouserservice.UserController;
 import io.github.alexwu727.mylouserservice.exception.UserNotFoundException;
@@ -43,9 +44,9 @@ class UserControllerTest {
 
     @BeforeEach
     void setup() {
-        user = new User(1L, "alex", "123456", "alex@example.com", new Date());
-        userResponse = new UserResponse(1L, "alex", "alex@example.com");
-        userRegistration = new UserRegistration("alex", "123456", "alex@example.com");
+        user = new User(1L, "alex", "123456", "alex@example.com", Role.USER, new Date());
+        userResponse = new UserResponse(1L, "alex", "alex@example.com", "USER");
+        userRegistration = new UserRegistration("alex", "123456", "alex@example.com", Role.USER);
         token = "token";
         registrationResponse = new RegistrationResponse(userResponse, token);
     }

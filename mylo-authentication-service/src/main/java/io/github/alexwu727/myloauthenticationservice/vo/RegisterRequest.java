@@ -1,5 +1,6 @@
 package io.github.alexwu727.myloauthenticationservice.vo;
 
+import io.github.alexwu727.myloauthenticationservice.user.Role;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,6 +14,10 @@ import lombok.NoArgsConstructor;
 public class RegisterRequest {
     @NotEmpty(message = "Username is required")
     private String username;
+    @NotEmpty(message = "Password is required")
     private String password;
+    @NotEmpty(message = "Email is required")
     private String email;
+
+    private Role role;
 }
