@@ -9,6 +9,13 @@ pipeline {
                 }
             }
         }
+        stage('Change to the sub directory') {
+            steps {
+                dir('mylo-eureka-server') {
+                    sh 'pwd'
+                }
+            }
+        }
         stage('Build') {
             steps {
                 sh 'mvn clean package'
