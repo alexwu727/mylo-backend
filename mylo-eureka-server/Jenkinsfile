@@ -12,7 +12,7 @@ pipeline {
         stage('Change to the sub directory') {
             steps {
                 dir('mylo-eureka-server') {
-                    sh 'pwd'
+                    sh 'mvn clean package'
                 }
             }
         }
