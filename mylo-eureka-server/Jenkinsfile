@@ -1,6 +1,14 @@
 pipeline {
     agent any
     stages {
+        stage('Print PWD') {
+            steps {
+                script {
+                    def currentDir = pwd()
+                    echo "Current working directory is: ${currentDir}"
+                }
+            }
+        }
         stage('Build') {
             steps {
                 sh 'mvn clean package'
