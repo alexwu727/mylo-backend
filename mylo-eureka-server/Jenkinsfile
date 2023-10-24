@@ -1,6 +1,10 @@
 pipeline {
     agent any
     stages {
+        stage('Initialize'){
+            def dockerHome = tool 'mylo-docker'
+            env.PATH = "${dockerHome}/bin:${env.PATH}"
+        }
         stage('Test') {
             steps {
                 sh 'mvn -f mylo-eureka-server test'
