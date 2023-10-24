@@ -12,6 +12,10 @@ pipeline {
         stage('Change to the sub directory') {
             steps {
                 sh 'cd mylo-eureka-server'
+                script {
+                    def currentDir = pwd()
+                    echo "Current working directory is: ${currentDir}"
+                }
             }
         }
         stage('Build') {
