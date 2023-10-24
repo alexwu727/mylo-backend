@@ -1,38 +1,18 @@
 pipeline {
     agent any
     stages {
-        dir('mylo-eureka-server') {
-            stage('Print PWD') {
-                steps {
-                    script {
-                        def currentDir = pwd()
-                        echo "Current working directory is: ${currentDir}"
-                    }
-                }
+        stage('Test') {
+            steps {
+                sh 'mvn -f mylo-eureka-server test'
             }
         }
 
-        stage('Change to the sub directory') {
-            steps {
-                dir('mylo-eureka-server') {
-                    sh 'mvn clean package'
-                }
-            }
-        }
         stage('Build') {
             steps {
-                script {
-                    def currentDir = pwd()
-                    echo "Current working directory is: ${currentDir}"
-                }
                 sh 'mvn clean package'
             }
         }
-        stage('Test') {
-            steps {
-                sh 'mvn test'
-            }
-        }
+
         stage('Build Docker Image') {
             steps {
                 echo 'Building Docker Image'
