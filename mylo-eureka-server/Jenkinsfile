@@ -11,9 +11,7 @@ pipeline {
         }
         stage('Change to the sub directory') {
             steps {
-                dir('mylo-eureka-server') {
-                    sh 'mvn clean package'
-                }
+                sh 'cd mylo-eureka-server'
             }
         }
         stage('Build') {
