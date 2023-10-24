@@ -15,7 +15,29 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                echo 'Building Docker Image'
+                script {
+                    // Build Docker image
+                    dockerImage = docker.build('alexwu727/mylo-eureka-server:latest', '-f ./mylo-eureka-server/Dockerfile .')
+                }
+            }
+        }
+        /*
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    // Push Docker image
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhubAccount') {
+                        dockerImage.push()
+                    }
+                }
+            }
+        }
+        */
+        stage('Deploy') {
+            steps {
+                sshagent(credentials: ['mylo-eureka-server']) {
+                    sh 'ssh -o StrictHostKeyChecking=no ec2-user@54.219.194.211 "mkdir test"'
+                }
             }
         }
     }
