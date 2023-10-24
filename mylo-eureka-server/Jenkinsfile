@@ -18,8 +18,10 @@ pipeline {
         }
         stage('Build') {
             steps {
-                def currentDir = pwd()
-                echo "Current working directory is: ${currentDir}"
+                script {
+                    def currentDir = pwd()
+                    echo "Current working directory is: ${currentDir}"
+                }
                 sh 'mvn clean package'
             }
         }
