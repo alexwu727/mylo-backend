@@ -1,15 +1,10 @@
 pipeline {
     agent any
+    tools {
+        maven 'Maven_3.9'
+        docker 'Docker'
+    }
     stages {
-        stage('Initialize') {
-            steps {
-                script {
-                    def dockerHome = tool 'mylo-docker'
-                    env.PATH = "${dockerHome}/bin:${env.PATH}"
-                }
-            }
-
-        }
         stage('Test') {
             steps {
                 sh 'mvn -f mylo-eureka-server test'
@@ -24,7 +19,6 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                // sh 'usermod -aG docker jenkins'
                 script {
                     // Build Docker image
                     dockerImage = docker.build('alexwu727/mylo-eureka-server:latest', '-f ./mylo-eureka-server/Dockerfile .')
@@ -36,7 +30,7 @@ pipeline {
             steps {
                 script {
                     // Push Docker image
-                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhubAccount') {
+                    docker.withRegistry('https://registry.hub.docker.com', 'DockerhubAccount') {
                         dockerImage.push()
                     }
                 }
@@ -45,7 +39,7 @@ pipeline {
         */
         stage('Deploy') {
             steps {
-                sshagent(credentials: ['mylo-eureka-server']) {
+                sshagent(credentials: ['MyloSSHKey']) {
                     sh 'ssh -o StrictHostKeyChecking=no ec2-user@54.219.194.211 "mkdir test"'
                 }
             }
