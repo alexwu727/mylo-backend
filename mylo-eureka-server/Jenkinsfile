@@ -19,15 +19,13 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                // sh 'docker -v'
-                // sh 'docker build -t mylo-eureka-server:latest -f ./mylo-eureka-server/Dockerfile .'
                 script {
                     // Build Docker image
                     dockerImage = docker.build('mylo-eureka-server:latest', '-f ./mylo-eureka-server/Dockerfile .')
                 }
             }
         }
-        /*
+
         stage('Push Docker Image') {
             steps {
                 script {
@@ -38,7 +36,6 @@ pipeline {
                 }
             }
         }
-        */
 
         stage('Deploy') {
             steps {
