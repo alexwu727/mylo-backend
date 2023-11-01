@@ -22,7 +22,7 @@ pipeline {
                 // sh 'docker -v'
                 // sh 'docker build -t mylo-eureka-server:latest -f ./mylo-eureka-server/Dockerfile .'
                 script {
-                    Build Docker image
+                    // Build Docker image
                     dockerImage = docker.build('mylo-eureka-server:latest', '-f ./mylo-eureka-server/Dockerfile .')
                 }
             }
