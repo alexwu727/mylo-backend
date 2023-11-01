@@ -16,7 +16,7 @@ pipeline {
                 sh 'mvn -f mylo-eureka-server clean package'
             }
         }
-
+        /*
         stage('Build Docker Image') {
             steps {
                 script {
@@ -36,6 +36,7 @@ pipeline {
                 }
             }
         }
+        */
 
         stage('Deploy') {
             steps {
