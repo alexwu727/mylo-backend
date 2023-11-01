@@ -19,6 +19,7 @@ pipeline {
         /*
         stage('Build Docker Image') {
             steps {
+                sh 'docker build -t mylo-eureka-server:latest -f ./mylo-eureka-server/Dockerfile .'
                 script {
                     // Build Docker image
                     dockerImage = docker.build('alexwu727/mylo-eureka-server:latest', '-f ./mylo-eureka-server/Dockerfile .')
