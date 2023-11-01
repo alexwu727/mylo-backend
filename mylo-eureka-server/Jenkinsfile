@@ -10,7 +10,7 @@ pipeline {
                 sh 'mvn -f mylo-eureka-server test'
             }
         }
-
+        /*
         stage('Build') {
             steps {
                 sh 'mvn -f mylo-eureka-server clean package'
@@ -25,7 +25,7 @@ pipeline {
                 }
             }
         }
-        /*
+
         stage('Push Docker Image') {
             steps {
                 script {
