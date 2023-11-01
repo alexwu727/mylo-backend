@@ -40,7 +40,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 sshagent(credentials: ['MyloSSHKey']) {
-                    sh 'ssh -o StrictHostKeyChecking=no ec2-user@54.219.194.211 "mkdir test"'
+                    sh 'ssh -o StrictHostKeyChecking=no ec2-user@54.219.194.211 "mkdir -p test"'
                 }
             }
         }
