@@ -1,4 +1,4 @@
 FROM openjdk:17-jdk-slim
 LABEL authors="alexwu"
-COPY target/mylo-eureka-server-0.0.1-SNAPSHOT.jar /app.jar
+COPY mylo-eureka-server/target/mylo-eureka-server-0.0.1-SNAPSHOT.jar /app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
