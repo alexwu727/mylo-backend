@@ -27,11 +27,13 @@ pipeline {
 
         stage('Push Docker Image') {
             steps {
+                echo 'Pushing Docker Image'
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', 'DockerhubAccount') {
                         dockerImage.push()
                     }
                 }
+                echo 'Pushed Docker Image'
             }
         }
 
