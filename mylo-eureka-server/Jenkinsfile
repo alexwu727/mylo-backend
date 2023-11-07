@@ -20,7 +20,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    def dockerImage = docker.build('mylo-eureka-server:test', '-f ./mylo-eureka-server/Dockerfile .')
+                    dockerImage = docker.build('mylo-eureka-server:test', '-f ./mylo-eureka-server/Dockerfile .')
                 }
             }
         }
