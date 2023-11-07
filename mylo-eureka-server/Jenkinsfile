@@ -20,7 +20,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    dockerImage = docker.build('alexwu727/mylo-eureka-server:test', '-f ./mylo-eureka-server/Dockerfile .')
+                    dockerImage = docker.build('alexwu727/mylo-eureka-server:latest', '-f ./mylo-eureka-server/Dockerfile .')
                 }
             }
         }
@@ -40,7 +40,17 @@ pipeline {
         stage('Deploy') {
             steps {
                 sshagent(credentials: ['MyloSSHKey']) {
-                    sh 'ssh -o StrictHostKeyChecking=no ec2-user@54.219.194.211 "mkdir -p test"'
+                    // Pull the Docker image
+                    sh 'ssh -o StrictHostKeyChecking=no ec2-user@54.219.194.211 "docker pull alexwu727/mylo-eureka-server:latest"'
+
+                    // Stop the existing container if needed
+                    sh 'ssh -o StrictHostKeyChecking=no ec2-user@54.219.194.211 "docker stop mylo-eureka-server || true"'
+
+                    // Remove the existing container if needed
+                    sh 'ssh -o StrictHostKeyChecking=no ec2-user@54.219.194.211 "docker rm mylo-eureka-server || true"'
+
+                    // Run the new Docker container
+                    sh 'ssh -o StrictHostKeyChecking=no ec2-user@54.219.194.211 "docker run -d --name mylo-eureka-server -p 8761:8761 alexwu727/mylo-eureka-server:latest"'
                 }
             }
         }
