@@ -5,14 +5,14 @@ pipeline {
     }
 
     environment {
-            SERVICE_NAME = 'mylo-user-service'
-            VERSION = 'latest'
-            EC2_HOST = '54.219.194.211'
-        }
+        SERVICE_NAME = 'mylo-user-service'
+        VERSION = 'latest'
+        EC2_HOST = '54.219.194.211'
+    }
     stages {
         stage('Test') {
             steps {
-                sh 'mvn -f ${env.SERVICE_NAME} test -Ptest'
+                sh "mvn -f \${env.SERVICE_NAME} test -Ptest"
             }
         }
 
