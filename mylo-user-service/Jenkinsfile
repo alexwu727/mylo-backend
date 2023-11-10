@@ -7,7 +7,7 @@ pipeline {
     environment {
         SERVICE_NAME = 'mylo-user-service'
         VERSION = 'latest'
-        EC2_HOST = '54.219.194.211'
+        EC2_HOST = '54.241.144.50'
     }
     stages {
         stage('Test') {
@@ -46,16 +46,16 @@ pipeline {
             steps {
                 sshagent(credentials: ['MyloSSHKey']) {
                     // Pull the Docker image
-                    sh 'ssh -o StrictHostKeyChecking=no ec2-user@${EC2_HOST} "docker pull alexwu727/${env.SERVICE_NAME}:${env.VERSION}"'
+                    sh "ssh -o StrictHostKeyChecking=no ec2-user@${EC2_HOST} \"docker pull alexwu727/${env.SERVICE_NAME}:${env.VERSION}\""
 
                     // Stop the existing container if needed
-                    sh 'ssh -o StrictHostKeyChecking=no ec2-user@${EC2_HOST} "docker stop ${env.SERVICE_NAME} || true"'
+                    sh "ssh -o StrictHostKeyChecking=no ec2-user@${EC2_HOST} \"docker stop ${env.SERVICE_NAME} || true\""
 
                     // Remove the existing container if needed
-                    sh 'ssh -o StrictHostKeyChecking=no ec2-user@${EC2_HOST} "docker rm ${env.SERVICE_NAME} || true"'
+                    sh "ssh -o StrictHostKeyChecking=no ec2-user@${EC2_HOST} \"docker rm ${env.SERVICE_NAME} || true\""
 
                     // Run the new Docker container
-                    sh 'ssh -o StrictHostKeyChecking=no ec2-user@${EC2_HOST} "docker run -d --name ${env.SERVICE_NAME} -p 8080:8080 alexwu727/${env.SERVICE_NAME}:${env.VERSION}"'
+                    sh "ssh -o StrictHostKeyChecking=no ec2-user@${EC2_HOST} \"docker run -d --name ${env.SERVICE_NAME} -p 8080:8080 alexwu727/${env.SERVICE_NAME}:${env.VERSION}\""
                 }
             }
         }
