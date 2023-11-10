@@ -21,6 +21,7 @@ public class SecurityConfig {
                         requests ->
                                 requests
                                         .pathMatchers("/api/v1/auth/**").permitAll()
+                                        .pathMatchers("/api/v1/users/register").permitAll()
                                         .pathMatchers("/api/v1/users/**").authenticated()
                                         .anyExchange().permitAll()
                 )
