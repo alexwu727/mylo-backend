@@ -30,6 +30,13 @@ public class UserServiceImpl implements UserService{
         this.authServiceBaseUrl = authServiceBaseUrl;
     }
 
+    @Override
+    public void test() {
+        ResponseEntity<String> response = restTemplate.getForEntity(authServiceBaseUrl + "test", String.class);
+        System.out.println("test");
+        System.out.println(response.getBody());
+    }
+
     // list all user
     @Override
     public List<User> findAll() {

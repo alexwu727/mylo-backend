@@ -13,4 +13,5 @@ public interface UserService {
     User update(Long id, User user);
     User patch(Long id, User user);
     void delete(Long id);
+    void test();
 }

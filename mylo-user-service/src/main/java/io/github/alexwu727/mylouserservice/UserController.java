@@ -41,6 +41,7 @@ public class UserController {
 
     @GetMapping("/test")
     public ResponseEntity<String> test() {
+        userService.test();
         return ResponseEntity.ok("test");
     }
 
