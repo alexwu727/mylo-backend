@@ -25,6 +25,7 @@ public class UserController {
     @Autowired
     private DiscoveryClient discoveryClient;
 
+    @GetMapping("/discovery")
     public void printServiceInstances() {
         List<ServiceInstance> instances = discoveryClient.getInstances("authentication-service");
         for (ServiceInstance instance : instances) {
@@ -40,7 +41,6 @@ public class UserController {
 
     @GetMapping("/")
     public ResponseEntity<List<UserResponse>> getAllUsers() {
-        printServiceInstances();
         List<User> users = userService.findAll();
         List<UserResponse> userResponses = users.stream().map(userMapper::UserToUserResponse).toList();
         return ResponseEntity.ok(userResponses);
