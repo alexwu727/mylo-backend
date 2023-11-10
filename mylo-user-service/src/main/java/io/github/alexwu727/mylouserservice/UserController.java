@@ -39,6 +39,11 @@ public class UserController {
         this.userMapper = new UserMapper();
     }
 
+    @GetMapping("/test")
+    public ResponseEntity<String> test() {
+        return ResponseEntity.ok("test");
+    }
+
     @GetMapping("/")
     public ResponseEntity<List<UserResponse>> getAllUsers() {
         List<User> users = userService.findAll();
