@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Test') {
             steps {
-                sh "mvn -f \${env.SERVICE_NAME} test -Ptest"
+                sh "mvn -f ${env.SERVICE_NAME} test -Ptest"
             }
         }
 
