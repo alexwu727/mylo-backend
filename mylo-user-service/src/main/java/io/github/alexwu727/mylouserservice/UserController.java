@@ -8,6 +8,8 @@ import io.github.alexwu727.mylouserservice.vo.UserRegistration;
 import io.github.alexwu727.mylouserservice.vo.UserResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.data.util.Pair;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,15 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
     private final UserMapper userMapper;
+    @Autowired
+    private DiscoveryClient discoveryClient;
+
+    public void printServiceInstances() {
+        List<ServiceInstance> instances = discoveryClient.getInstances("authentication-service");
+        for (ServiceInstance instance : instances) {
+            System.out.println("Instance: " + instance.getServiceId() + " - " + instance.getUri());
+        }
+    }
 
     @Autowired
     public UserController(UserService userService) {
@@ -29,6 +40,7 @@ public class UserController {
 
     @GetMapping("/")
     public ResponseEntity<List<UserResponse>> getAllUsers() {
+        printServiceInstances();
         List<User> users = userService.findAll();
         List<UserResponse> userResponses = users.stream().map(userMapper::UserToUserResponse).toList();
         return ResponseEntity.ok(userResponses);
