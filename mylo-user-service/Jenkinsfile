@@ -18,14 +18,14 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'mvn -f ${env.SERVICE_NAME} clean package -Pprod -DskipTests'
+                sh "mvn -f ${env.SERVICE_NAME} clean package -Pprod -DskipTests"
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 script {
-                    dockerImage = docker.build('alexwu727/${env.SERVICE_NAME}:${env.VERSION}', '-f ./${env.SERVICE_NAME}/Dockerfile .')
+                    dockerImage = docker.build("alexwu727/${env.SERVICE_NAME}:${env.VERSION}", "-f ./${env.SERVICE_NAME}/Dockerfile .")
                 }
             }
         }
@@ -55,7 +55,7 @@ pipeline {
                     sh 'ssh -o StrictHostKeyChecking=no ec2-user@${EC2_HOST} "docker rm ${env.SERVICE_NAME} || true"'
 
                     // Run the new Docker container
-                    sh 'ssh -o StrictHostKeyChecking=no ec2-user@${EC2_HOST} "docker run -d --name ${env.SERVICE_NAME} -p 8761:8761 alexwu727/${env.SERVICE_NAME}:${env.VERSION}"'
+                    sh 'ssh -o StrictHostKeyChecking=no ec2-user@${EC2_HOST} "docker run -d --name ${env.SERVICE_NAME} -p 8080:8080 alexwu727/${env.SERVICE_NAME}:${env.VERSION}"'
                 }
             }
         }
