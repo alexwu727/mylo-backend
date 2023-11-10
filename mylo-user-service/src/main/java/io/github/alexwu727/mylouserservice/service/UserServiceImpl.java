@@ -32,9 +32,13 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void test() {
-        ResponseEntity<String> response = restTemplate.getForEntity(authServiceBaseUrl + "test", String.class);
-        System.out.println("test");
-        System.out.println(response.getBody());
+        try {
+            ResponseEntity<String> response = restTemplate.getForEntity(authServiceBaseUrl + "test", String.class);
+            System.out.println("test");
+            System.out.println(response.getBody());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     // list all user
