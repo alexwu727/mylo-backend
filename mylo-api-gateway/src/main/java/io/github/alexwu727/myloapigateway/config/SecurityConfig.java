@@ -3,6 +3,7 @@ package io.github.alexwu727.myloapigateway.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
@@ -21,9 +22,8 @@ public class SecurityConfig {
                         requests ->
                                 requests
                                         .pathMatchers("/api/v1/auth/**").permitAll()
-                                        .pathMatchers("/api/v1/users/register").permitAll()
-                                        .pathMatchers("/api/v1/users/**").authenticated()
-                                        .anyExchange().permitAll()
+                                        .pathMatchers(HttpMethod.POST, "/api/v1/users/").permitAll()
+                                        .anyExchange().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, SecurityWebFiltersOrder.AUTHENTICATION);
         return http.build();
