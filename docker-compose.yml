@@ -15,8 +15,8 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - /var/lib/docker/volumes/mylo/mysql:/var/lib/mysql
       - ./db-scripts:/docker-entrypoint-initdb.d
+      - /var/lib/docker/volumes/mylo/mysql:/var/lib/mysql
     networks:
       - mylo-network
 
